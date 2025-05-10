@@ -1,0 +1,186 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(to right, #e0f7fa, #f0faff);
+  margin: 0;
+  padding: 2rem;
+  color: #1e3a5f;
+  text-align: center;
+}
+
+.main-title {
+  font-size: 2.5rem;
+  margin-bottom: 0.3rem;
+  color: #0ea5e9;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #38bdf8;
+  margin-bottom: 2rem;
+}
+
+.category-bar,
+.clear-area {
+  background: white;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  display: inline-block;
+  margin-bottom: 1.5rem;
+}
+
+/* ✅ 入力フォーム用：見やすく大きく */
+.input-area {
+  background: white;
+  padding: 1.5rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.5rem auto;
+  width: 90%;
+  max-width: 650px;
+}
+
+.input-area input[type="text"],
+.input-area input[type="date"] {
+  padding: 0.8rem;
+  font-size: 1.1rem;
+  width: 200px;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+}
+
+.input-area button {
+  padding: 0.8rem 1.2rem;
+  font-size: 1.1rem;
+  background-color: #0ea5e9;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+.input-area button:hover {
+  background-color: #0284c7;
+}
+
+.category-bar button {
+  margin: 0 0.3rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: none;
+  background: #38bdf8;
+  color: white;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.category-bar button:hover {
+  background: #0ea5e9;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: none;
+  background-color: #0ea5e9;
+  color: white;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin-left: 0.5rem;
+}
+button:hover {
+  background-color: #0284c7;
+}
+
+.clear-area button {
+  background-color: #ef4444;
+}
+.clear-area button:hover {
+  background-color: #dc2626;
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.task-item {
+  background: white;
+  width: 90%;
+  max-width: 600px;
+  margin-bottom: 1rem;
+  padding: 1.5rem;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 20px rgba(14, 165, 233, 0.1);
+  transition: transform 0.2s ease;
+}
+.task-item:hover {
+  transform: translateY(-4px);
+}
+
+.task-item .top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.task-item input[type="checkbox"] {
+  margin-right: 1rem;
+  width: 24px;
+  height: 24px;
+  accent-color: #0ea5e9;
+}
+
+.task-item label {
+  font-size: 1.25rem;
+  flex: 1;
+  text-align: left;
+  font-weight: 600;
+  color: #1e3a5f;
+}
+.task-item label.done {
+  text-decoration: line-through;
+  color: gray;
+}
+
+.due-date {
+  font-size: 0.95rem;
+  color: #6b7280;
+  margin-top: 0.6rem;
+  margin-left: 2.5rem;
+}
+
+.edit-input {
+  font-size: 1.2rem;
+  flex: 1;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  color: #ef4444;
+  cursor: pointer;
+  margin-left: 1rem;
+}
+.delete-btn:hover {
+  color: #b91c1c;
+}
+.category-bar button.active {
+  background: #0284c7; /* 濃い水色 */
+  color: white;
+  font-weight: bold;
+  transform: scale(1.05);
+  transition: all 0.2s ease;
+}
