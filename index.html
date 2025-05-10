@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>To-DONE</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1 class="main-title">💎 To-DONE</h1>
+  <p class="subtitle">Make waves of progress, one task at a time.</p>
+
+  <!-- 1. カテゴリ切り替え -->
+<div class="category-bar">
+  <button onclick="switchCategory('Groceries')">🥒 Groceries</button>
+  <button onclick="switchCategory('School')">📘 School</button>
+  <button onclick="switchCategory('Personal')">🫧 Personal</button>
+</div>
+
+<!-- 2. 入力エリア（下に移動） -->
+<div class="input-area">
+  <input type="text" id="taskInput" placeholder="Enter a new task" />
+  <input type="date" id="dueDateInput" />
+  <button onclick="addTask()">Add</button>
+</div>
+
+
+  <div id="taskList" class="task-list"></div>
+
+<div class="clear-area">
+  <button onclick="clearAllTasks()">🧹 Clear All</button>
+</div>
+
+  <script>
+    let currentCategory = "Groceries";
+
+    const taskData = {
+      Groceries: [],
+      School: [],
+      Personal: []
+    };
+
+    const categoryIcons = {
+      Groceries: "🥒",
+      School: "📘",
+      Personal: "🫧"
+    };
+
+    function switchCategory(category) {
+  currentCategory = category;
+  document.querySelector("h1").textContent = "💎 To-DONE";
+  
+  // ✅ すべてのボタンから active を外す
+  const buttons = document.querySelectorAll(".category-bar button");
+  buttons.forEach((btn) => btn.classList.remove("active"));
+
+  // ✅ 今押されたボタンだけ active をつける
+  const thisButton = Array.from(buttons).find(btn =>
+    btn.textContent.includes(category)
+  );
+  if (thisButton) thisButton.classList.add("active");
+
+  renderTasks();
+}
+
+document.getElementById("taskInput").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    addTask();
+  }
+});
+
+    function addTask() {
+      const input = document.getElementById("taskInput");
+      const dueInput = document.getElementById("dueDateInput");
+      const title = input.value.trim();
+      const dueDate = dueInput.value;
+
+      if (title === "") return;
+
+      const task = { title, done: false, due: dueDate };
+      taskData[currentCategory].push(task);
+      input.value = "";
+      dueInput.value = "";
+      renderTasks();
+    }
+
+    function renderTasks() {
+      const container = document.getElementById("taskList");
+      container.innerHTML = "";
+
+      taskData[currentCategory].forEach((task, index) => {
+        const taskItem = document.createElement("div");
+        taskItem.className = "task-item";
+
+        const topRow = document.createElement("div");
+        topRow.className = "top-row";
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = task.done;
+        checkbox.onchange = () => {
+          task.done = checkbox.checked;
+          renderTasks();
+        };
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "delete-btn";
+        deleteBtn.textContent = "🗑";
+        deleteBtn.onclick = () => {
+          taskData[currentCategory].splice(index, 1);
+          renderTasks();
+        };
+
+        const label = document.createElement("label");
+        label.textContent = task.title;
+        if (task.done) label.classList.add("done");
+
+        label.ondblclick = () => {
+          const editInput = document.createElement("input");
+          editInput.type = "text";
+          editInput.value = task.title;
+          editInput.className = "edit-input";
+
+          editInput.onkeydown = (e) => {
+            if (e.key === "Enter") {
+              const newTitle = editInput.value.trim();
+              if (newTitle !== "") task.title = newTitle;
+              renderTasks();
+            }
+          };
+
+          editInput.onblur = () => {
+            const newTitle = editInput.value.trim();
+            if (newTitle !== "") task.title = newTitle;
+            renderTasks();
+          };
+
+          topRow.replaceChild(editInput, label);
+          editInput.focus();
+        };
+
+        topRow.appendChild(checkbox);
+        topRow.appendChild(label);
+        topRow.appendChild(deleteBtn);
+
+        const due = document.createElement("p");
+        due.className = "due-date";
+        due.textContent = task.due ? "Due: " + task.due : "";
+
+        if (task.due && new Date(task.due) < new Date() && !task.done) {
+          due.style.color = "red";
+          due.textContent += " (Overdue!)";
+        }
+
+        taskItem.appendChild(topRow);
+        taskItem.appendChild(due);
+        container.appendChild(taskItem);
+      });
+
+      localStorage.setItem("todoAppData", JSON.stringify(taskData));
+    }
+
+    function clearAllTasks() {
+      if (confirm("Are you sure you want to delete all tasks?")) {
+        for (let cat in taskData) taskData[cat] = [];
+        localStorage.removeItem("todoAppData");
+        renderTasks();
+      }
+    }
+
+    window.onload = () => {
+      const saved = localStorage.getItem("todoAppData");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        for (let cat in taskData) {
+          if (parsed[cat]) taskData[cat] = parsed[cat];
+        }
+      }
+      renderTasks();
+    };
+  </script>
+</body>
+</html>
